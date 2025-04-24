@@ -13,7 +13,7 @@ WORKDIR /var/www
 
 # Copier le code de l'application dans le conteneur
 COPY . .
-COPY entrypoint.sh /entrypoint.sh
+COPY src/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 # Installer les dépendances PHP
 RUN composer install
