@@ -16,6 +16,10 @@ COPY ./phpmyadmin /var/www/html/
 	#&& unzip phpMyAdmin-5.2.2-all-languages.zip \
 	#&& mv phpMyAdmin-5.2.2-all-languages.zip /var/www/html/phpmyadmin \
 	#&& rm phpMyAdmin-5.2.2-all-languages.zip
+	
+	
+# Fixer le message "Could not reliably determine the server's fully qualified domain name"
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 #Copier le fichier de configuration phpMyAdmin
 COPY config.inc.php /var/www/html/phpmyadmin/config.inc.php
