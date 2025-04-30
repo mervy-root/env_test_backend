@@ -45,11 +45,14 @@ services:
 
   # Service PhpMyAdmin
   phpmyadmin:
-    image: l80000000/phpmyadmin
+    build: phpmyadmin/
     container_name: phpmyadmin
+    restart: always
     environment:
       PMA_HOST: mysql__db
       PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: Lawliet2004
     ports:
       - "8080:80"
     depends_on:

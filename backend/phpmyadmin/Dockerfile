@@ -9,27 +9,23 @@ RUN apt-get update && apt-get install -y \
     unzip \
     && docker-php-ext-install mysqli pdo_mysql mbstring
 
-COPY ./phpmyadmin /var/www/html/
-#Télécharger phpmyadmin depuis le site officiel
-#RUN apt-get update && apt-get install -y wget unzip \
-	#&& wget https://files.phpmyadmin.net/phpMyAdmin/5.2.2/phpMyAdmin-5.2.2-all-languages.zip \
-	#&& unzip phpMyAdmin-5.2.2-all-languages.zip \
-	#&& mv phpMyAdmin-5.2.2-all-languages.zip /var/www/html/phpmyadmin \
-	#&& rm phpMyAdmin-5.2.2-all-languages.zip
-	
-	
+# Ajouter d'abord le dossier phpMyAdmin
+#Copier le fichier de configuration phpMyAdmin
+COPY ./phpmyadmin /var/www/html
+COPY config.inc.php /var/www/html/config.inc.php
+
 # Fixer le message "Could not reliably determine the server's fully qualified domain name"
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-#Copier le fichier de configuration phpMyAdmin
-COPY config.inc.php /var/www/html/phpmyadmin/config.inc.php
-
 #Configurer le serveur
-RUN chown -R www-data:www-data /var/www/html/phpmyadmin
+RUN chown -R www-data:www-data /var/www/html
+RUN chmod -R 775 /var/www/html
 
 #Active la reecriture d'URL d'apache si besoin
 RUN a2enmod rewrite
 
-#ouvrir le port http
+CMD ["apache2ctl", "-D", "FOREGROUND"]
+
+#ouvrir le port httpin
 EXPOSE 80
 
